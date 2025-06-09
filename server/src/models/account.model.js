@@ -55,9 +55,9 @@ const accountSchema = new mongoose.Schema(
       max: 100,
     },
     commission: {
-        type: Number,
-        required: true,
-        default: 0
+      type: Number,
+      required: true,
+      default: 0,
     },
     ownedBy: {
       type: mongoose.Schema.Types.ObjectId,
@@ -75,6 +75,9 @@ const accountSchema = new mongoose.Schema(
 );
 
 accountSchema.pre("save", function (next) {
+  if (!this.isModified("totalTrades") && !this.isModified("totalWins")) {
+    return next();
+  }
   if (this.totalTrades > 0) {
     this.winRate = (this.totalWins / this.totalTrades) * 100;
   } else {
@@ -83,7 +86,5 @@ accountSchema.pre("save", function (next) {
 
   next();
 });
-
-
 
 export const Account = mongoose.model("Account", accountSchema);

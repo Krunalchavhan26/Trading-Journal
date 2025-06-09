@@ -95,6 +95,12 @@ const orderbookSchema = new Schema(
 
 orderbookSchema.pre("save", async function (next) {
   try {
+    if (
+      !this.isModified("grossPnL") &&
+      !this.isModified("lotSize")
+    ) {
+      return next();
+    }
     const account = await Account.findById(this.account);
     if (!account) return next(new ApiError(400, "Invalid account reference"));
 
