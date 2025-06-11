@@ -2,6 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Account } from "../models/account.model.js";
+import { Orderbook } from "../models/orderbook.model.js";
 
 const addAccount = asyncHandler(async (req, res) => {
   const { name, type, startingBalance, goal, commission } = req.body;
@@ -77,4 +78,23 @@ const editAccount = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, account, "Account updated successfully"));
 });
 
-export { addAccount, editAccount };
+const deleteAccount = asyncHandler(async (req, res) => {
+  const { accountId } = req.params;
+
+  const account = await Account.findOne({
+    _id: accountId,
+    ownedBy: req.user._id,
+  });
+
+  if (!account) throw new ApiError(404, "Account not found or not accessible");
+
+  await Orderbook.deleteMany({ account: account._id });
+
+  await account.deleteOne();
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Account and related orderbooks deleted"));
+});
+
+export { addAccount, editAccount, deleteAccount };
