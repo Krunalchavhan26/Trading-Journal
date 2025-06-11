@@ -97,4 +97,14 @@ const deleteAccount = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "Account and related orderbooks deleted"));
 });
 
-export { addAccount, editAccount, deleteAccount };
+const getAllAccounts = asyncHandler(async (req, res) => {
+  const accounts = await Account.find({ ownedBy: req.user._id }).select(
+    "-orderbooks"
+  );
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, accounts, "Accounts fetched successfully"));
+});
+
+export { addAccount, editAccount, deleteAccount, getAllAccounts };

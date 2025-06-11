@@ -4,6 +4,7 @@ import {
   addAccount,
   deleteAccount,
   editAccount,
+  getAllAccounts,
 } from "../controllers/account.controller.js";
 
 const router = Router();
@@ -11,5 +12,7 @@ const router = Router();
 router.route("/add-account").post(verifyJWT, addAccount);
 router.route("/edit-account/:accountId").patch(verifyJWT, editAccount);
 router.route("/delete-account/:accountId").delete(verifyJWT, deleteAccount);
+
+router.route("/getAllAccounts").get(verifyJWT, getAllAccounts);
 
 export default router;
