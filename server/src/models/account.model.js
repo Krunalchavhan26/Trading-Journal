@@ -9,6 +9,7 @@ const accountSchema = new mongoose.Schema(
     },
     type: {
       type: String,
+      enum: ["Evaluation", "Funded", "Personal"],
       required: [true, "Account type is required"],
     },
     startingBalance: {
