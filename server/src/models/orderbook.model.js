@@ -96,6 +96,7 @@ const orderbookSchema = new Schema(
 orderbookSchema.pre("save", async function (next) {
   try {
     if (
+      !this.isNew &&
       !this.isModified("grossPnL") &&
       !this.isModified("lotSize")
     ) {
@@ -105,10 +106,10 @@ orderbookSchema.pre("save", async function (next) {
     if (!account) return next(new ApiError(400, "Invalid account reference"));
 
     const commisionPerLot = account.commission || 0;
-    this.commision = this.lotSize * commisionPerLot;
+    this.commission = this.lotSize * commisionPerLot;
 
     if (this.grossPnL !== null) {
-      this.netPnL = this.grossPnL - this.commision;
+      this.netPnL = this.grossPnL - this.commission;
       this.result = this.netPnL > 0 ? "Profit" : "Loss";
     }
 
@@ -119,5 +120,51 @@ orderbookSchema.pre("save", async function (next) {
     );
   }
 });
+
+orderbookSchema.post("save", async function (doc, next){
+  try {
+    
+    // const modifiedFields = doc.modifiedPaths?.() || [];
+
+    // const importantFields = [
+    //   "netPnL",
+    //   "commission",
+    //   "result",
+    //   "tradeStatus"
+    // ]
+
+    // const shouldUpdateAccount = importantFields.some((field) => modifiedFields.includes(field))
+
+    // if (!shouldUpdateAccount) return next()
+
+    const account = await Account.findById(doc.account);
+    if(!account) return next();
+
+    const orderbooks = await Orderbook.find({account: doc.account})
+
+    const totalTrades = orderbooks.length;
+    const totalWins = orderbooks.filter((ob) => ob.result === "Profit").length;
+    const totalNetPnL = orderbooks.reduce((acc, ob) => acc + (ob.netPnL || 0), 0);
+    const totalCommission = orderbooks.reduce((acc, ob) => acc + (ob.commission || 0), 0).toFixed(2) 
+    const currentBalance = account.startingBalance + totalNetPnL;
+    const winRate = totalTrades > 0 ? Number(((totalWins / totalTrades) * 100).toFixed(2)) : 0;
+
+    // update
+    account.totalTrades = totalTrades;
+    account.totalWins = totalWins;
+    account.totalNetPnL = totalNetPnL;
+    account.totalCommission = totalCommission;
+    account.currentBalance = currentBalance;
+    account.winRate = winRate;
+    account.accountStatus = "Active"
+
+    await account.save();
+    next();
+
+
+  } catch (error) {
+    next(new ApiError(500, "Something went wrong while updating account details."))
+  }
+})
 
 export const Orderbook = model("Orderbook", orderbookSchema);

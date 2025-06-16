@@ -20,10 +20,12 @@ app.use(cookieParser());
 
 import userRouter from "./routes/user.route.js";
 import accountRouter from "./routes/account.route.js";
+import orderbookRouter from "./routes/orderbook.route.js"
 
 // Routes declaration
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/accounts", accountRouter);
+app.use("/api/v1/orderbooks", orderbookRouter);
 
 export default app;

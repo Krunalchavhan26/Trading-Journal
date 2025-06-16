@@ -75,17 +75,5 @@ const accountSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-accountSchema.pre("save", function (next) {
-  if (!this.isModified("totalTrades") && !this.isModified("totalWins")) {
-    return next();
-  }
-  if (this.totalTrades > 0) {
-    this.winRate = (this.totalWins / this.totalTrades) * 100;
-  } else {
-    this.winRate = 0;
-  }
-
-  next();
-});
 
 export const Account = mongoose.model("Account", accountSchema);
