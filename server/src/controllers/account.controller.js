@@ -107,4 +107,28 @@ const getAllAccounts = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, accounts, "Accounts fetched successfully"));
 });
 
-export { addAccount, editAccount, deleteAccount, getAllAccounts };
+const getSingleAccount = asyncHandler(async (req, res) => {
+  const { accountId } = req.params;
+
+  if (!accountId) {
+    throw new ApiError(400, "Account ID is required");
+  }
+
+  const account = await Account.findById(accountId);
+
+  if (!account) {
+    throw new ApiError(404, "Account not found");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, account, "Account fetched successfully"));
+});
+
+export {
+  addAccount,
+  editAccount,
+  deleteAccount,
+  getAllAccounts,
+  getSingleAccount,
+};

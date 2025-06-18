@@ -162,4 +162,44 @@ const deleteOrderbook = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "Orderbook deleted successfully"));
 });
 
-export { addOrderbook, editOrderbook, deleteOrderbook };
+const getAllOrderbooks = asyncHandler(async (req, res) => {
+  const { accountId } = req.params;
+
+  if (!accountId) {
+    throw new ApiError(400, "Account ID is required");
+  }
+
+  const orderbooks = await Orderbook.find({ account: accountId }).sort({
+    createdAt: -1,
+  });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, orderbooks, "Orderbooks fetched successfuly"));
+});
+
+const getSingleOrderbook = asyncHandler(async (req, res) => {
+  const { orderbookId } = req.params;
+
+  if (!orderbookId) {
+    throw new ApiError(400, "Orderbook ID is required");
+  }
+
+  const orderbook = await Orderbook.findById(orderbookId);
+
+  if (!orderbook) {
+    throw new ApiError(404, "Orderbook not found");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, orderbook, "Orderbook fetched successfully"));
+});
+
+export {
+  addOrderbook,
+  editOrderbook,
+  deleteOrderbook,
+  getAllOrderbooks,
+  getSingleOrderbook,
+};

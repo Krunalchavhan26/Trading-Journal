@@ -5,6 +5,8 @@ import {
   addOrderbook,
   deleteOrderbook,
   editOrderbook,
+  getAllOrderbooks,
+  getSingleOrderbook,
 } from "../controllers/orderbook.controller.js";
 
 const router = Router();
@@ -18,5 +20,8 @@ router
   .put(verifyJWT, upload.single("tradeImage"), editOrderbook);
 
 router.route("/orderbook/:orderbookId").delete(verifyJWT, deleteOrderbook);
+
+router.get("/all-orderbooks/:accountId", verifyJWT, getAllOrderbooks);
+router.get("/get-single-orderbook/:orderbookId", verifyJWT, getSingleOrderbook);
 
 export default router;
