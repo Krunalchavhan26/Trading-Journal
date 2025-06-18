@@ -121,33 +121,27 @@ orderbookSchema.pre("save", async function (next) {
   }
 });
 
-orderbookSchema.post("save", async function (doc, next){
+orderbookSchema.post("save", async function (doc, next) {
   try {
-    
-    // const modifiedFields = doc.modifiedPaths?.() || [];
-
-    // const importantFields = [
-    //   "netPnL",
-    //   "commission",
-    //   "result",
-    //   "tradeStatus"
-    // ]
-
-    // const shouldUpdateAccount = importantFields.some((field) => modifiedFields.includes(field))
-
-    // if (!shouldUpdateAccount) return next()
-
     const account = await Account.findById(doc.account);
-    if(!account) return next();
+    if (!account) return next();
 
-    const orderbooks = await Orderbook.find({account: doc.account})
+    const orderbooks = await Orderbook.find({ account: doc.account });
 
     const totalTrades = orderbooks.length;
     const totalWins = orderbooks.filter((ob) => ob.result === "Profit").length;
-    const totalNetPnL = orderbooks.reduce((acc, ob) => acc + (ob.netPnL || 0), 0);
-    const totalCommission = orderbooks.reduce((acc, ob) => acc + (ob.commission || 0), 0).toFixed(2) 
+    const totalNetPnL = orderbooks.reduce(
+      (acc, ob) => acc + (ob.netPnL || 0),
+      0
+    );
+    const totalCommission = orderbooks
+      .reduce((acc, ob) => acc + (ob.commission || 0), 0)
+      .toFixed(2);
     const currentBalance = account.startingBalance + totalNetPnL;
-    const winRate = totalTrades > 0 ? Number(((totalWins / totalTrades) * 100).toFixed(2)) : 0;
+    const winRate =
+      totalTrades > 0
+        ? Number(((totalWins / totalTrades) * 100).toFixed(2))
+        : 0;
 
     // update
     account.totalTrades = totalTrades;
@@ -156,15 +150,54 @@ orderbookSchema.post("save", async function (doc, next){
     account.totalCommission = totalCommission;
     account.currentBalance = currentBalance;
     account.winRate = winRate;
-    account.accountStatus = "Active"
+    account.accountStatus = "Active";
 
     await account.save();
     next();
-
-
   } catch (error) {
-    next(new ApiError(500, "Something went wrong while updating account details."))
+    next(
+      new ApiError(500, "Something went wrong while updating account details.")
+    );
   }
-})
+});
+
+orderbookSchema.methods.updateAccountStats = async function(accountId){
+  try {
+    const account = await Account.findById(accountId);
+    if (!account) throw new ApiError(500, "Account not found")
+
+    const orderbooks = await Orderbook.find({ account: accountId });
+
+    const totalTrades = orderbooks.length;
+    const totalWins = orderbooks.filter((ob) => ob.result === "Profit").length;
+    const totalNetPnL = orderbooks.reduce(
+      (acc, ob) => acc + (ob.netPnL || 0),
+      0
+    );
+    const totalCommission = orderbooks
+      .reduce((acc, ob) => acc + (ob.commission || 0), 0)
+      .toFixed(2);
+    const currentBalance = account.startingBalance + totalNetPnL;
+    const winRate =
+      totalTrades > 0
+        ? Number(((totalWins / totalTrades) * 100).toFixed(2))
+        : 0;
+
+    // update
+    account.totalTrades = totalTrades;
+    account.totalWins = totalWins;
+    account.totalNetPnL = totalNetPnL;
+    account.totalCommission = totalCommission;
+    account.currentBalance = currentBalance;
+    account.winRate = winRate;
+    account.accountStatus = "Active";
+
+    await account.save();
+  } catch (error) {
+    next(
+      new ApiError(500, "Something went wrong while updating account details.")
+    );
+  }
+}
 
 export const Orderbook = model("Orderbook", orderbookSchema);

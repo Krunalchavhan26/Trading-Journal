@@ -134,4 +134,32 @@ const editOrderbook = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, orderbook, "Orderbook updated successfully"));
 });
 
-export { addOrderbook, editOrderbook };
+const deleteOrderbook = asyncHandler(async (req, res) => {
+  const { orderbookId } = req.params;
+
+  if (!orderbookId) {
+    throw new ApiError(400, "Orderbook ID is required");
+  }
+
+  const orderbook = await Orderbook.findById(orderbookId);
+
+  if (!orderbook) {
+    throw new ApiError(404, "Orderbook not found");
+  }
+
+  // Delete tradeImage from Cloudinary if exists
+  if (orderbook.tradeImage) {
+    const publicId = getPublicIdFromUrl(orderbook.tradeImage);
+    await deleteFromCloudinary(publicId);
+  }
+
+  await orderbook.deleteOne();
+
+  await orderbook.updateAccountStats(orderbook.account);
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {}, "Orderbook deleted successfully"));
+});
+
+export { addOrderbook, editOrderbook, deleteOrderbook };
