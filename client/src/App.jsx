@@ -1,7 +1,8 @@
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { Header } from "./components/index";
+import { Header, Footer } from "./components/index";
 import { Outlet } from "react-router-dom";
+
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <main>
           <Outlet />
         </main>
+        <Footer/>
       </div>
     </div>
   );
