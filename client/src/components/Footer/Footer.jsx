@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white py-8 mt-16 border-t-2 border-emerald-500/30 relative overflow-hidden">
+    <footer className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white py-8 border-t-2 border-emerald-500/30 relative overflow-hidden">
       {/* Background accent pattern */}
       <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent"></div>
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-500 to-transparent opacity-60"></div>
