@@ -50,9 +50,18 @@ const Signup = () => {
             <div className="flex items-end p-2 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg shadow-lg shadow-emerald-500/30">
               <div className="flex items-end gap-0.5 h-5">
                 <div className="w-1 h-2 bg-white rounded-sm animate-pulse"></div>
-                <div className="w-1 h-4 bg-white rounded-sm animate-pulse" style={{animationDelay: '0.2s'}}></div>
-                <div className="w-1 h-3 bg-white rounded-sm animate-pulse" style={{animationDelay: '0.4s'}}></div>
-                <div className="w-1 h-5 bg-white rounded-sm animate-pulse" style={{animationDelay: '0.6s'}}></div>
+                <div
+                  className="w-1 h-4 bg-white rounded-sm animate-pulse"
+                  style={{ animationDelay: "0.2s" }}
+                ></div>
+                <div
+                  className="w-1 h-3 bg-white rounded-sm animate-pulse"
+                  style={{ animationDelay: "0.4s" }}
+                ></div>
+                <div
+                  className="w-1 h-5 bg-white rounded-sm animate-pulse"
+                  style={{ animationDelay: "0.6s" }}
+                ></div>
               </div>
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-white to-slate-200 bg-clip-text text-transparent">
@@ -66,7 +75,6 @@ const Signup = () => {
         {/* Form */}
         <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8 shadow-2xl">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            
             {/* Username Field */}
             <div className="space-y-2">
               <label className="block text-sm font-medium text-slate-200">
@@ -80,8 +88,16 @@ const Signup = () => {
               />
               {errors.username && (
                 <p className="text-red-400 text-sm flex items-center gap-1">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  <svg
+                    className="w-4 h-4"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   {errors.username.message}
                 </p>
@@ -107,8 +123,16 @@ const Signup = () => {
               />
               {errors.email && (
                 <p className="text-red-400 text-sm flex items-center gap-1">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  <svg
+                    className="w-4 h-4"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   {errors.email.message}
                 </p>
@@ -134,8 +158,16 @@ const Signup = () => {
               />
               {errors.password && (
                 <p className="text-red-400 text-sm flex items-center gap-1">
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  <svg
+                    className="w-4 h-4"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   {errors.password.message}
                 </p>
@@ -149,8 +181,18 @@ const Signup = () => {
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
                 Create Account
-                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                <svg
+                  className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
                 </svg>
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-emerald-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -160,7 +202,9 @@ const Signup = () => {
           {/* Divider */}
           <div className="mt-8 flex items-center">
             <div className="flex-1 border-t border-slate-600"></div>
-            <span className="px-4 text-sm text-slate-400">Already have an account?</span>
+            <span className="px-4 text-sm text-slate-400">
+              Already have an account?
+            </span>
             <div className="flex-1 border-t border-slate-600"></div>
           </div>
 
