@@ -5,4 +5,5 @@ import Footer from "./Footer/Footer";
 import Signup from "./Signup";
 import AuthLayout from "./authentication/AuthLayout";
 import Login from "./Login"
-export { Container, Header, LogoutBtn, Footer, Signup, AuthLayout, Login };
+import AddAccountForm from "./Admin/AddAccountForm";
+export { Container, Header, LogoutBtn, Footer, Signup, AuthLayout, Login, AddAccountForm };

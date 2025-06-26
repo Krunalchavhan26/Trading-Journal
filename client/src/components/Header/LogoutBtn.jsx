@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import conf from "../../conf/conf";
 import { useNavigate } from "react-router-dom";
+import { clearUser } from "../../store/slices/userSlice";
 
 const LogoutBtn = () => {
   const dispatch = useDispatch();
@@ -11,7 +12,7 @@ const LogoutBtn = () => {
   const handleLogout = async () => {
     try {
       const response = await axios.post(
-        `${conf.VITE_BACKEND_URL}`,
+        `${conf.VITE_BACKEND_URL}/api/v1/users/logout`,
         {},
         { withCredentials: true }
       );

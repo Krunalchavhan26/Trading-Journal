@@ -9,6 +9,7 @@ import Home from "./pages/Home.jsx";
 import Signup from "./pages/Signup.jsx"
 import Login from "./pages/Login.jsx";
 import { AuthLayout } from "./components/index.js";
+import AddAccount from "./pages/Admin/AddAccount.jsx";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,14 @@ const router = createBrowserRouter([
         element: (
           <AuthLayout authentication={false}>
             <Login/>
+          </AuthLayout>
+        )
+      },
+      {
+        path: "/add-account",
+        element: (
+          <AuthLayout authentication>
+            <AddAccount/>
           </AuthLayout>
         )
       }

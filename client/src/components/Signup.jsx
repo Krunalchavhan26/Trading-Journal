@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../store/slices/userSlice";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const {
@@ -17,7 +18,7 @@ const Signup = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    console.log("Form data", data);
+    // console.log("Form data", data);
 
     try {
       const response = await axios.post(
@@ -28,10 +29,12 @@ const Signup = () => {
 
       if (response?.data.success) {
         dispatch(setUser(response?.data?.user));
+        toast.success(response.data.message)
         navigate("/");
       }
     } catch (error) {
-      console.error(error);
+      const errorMessage = error?.response?.data?.message || error.message || "Something went wrong";
+      toast.error(errorMessage)
     }
   };
 

@@ -17,7 +17,7 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const res = await axios.get(
+        const res = await axios.post(
           `${conf.VITE_BACKEND_URL}/api/v1/users/refresh-token`,
           {
             withCredentials: true,

@@ -1,8 +1,9 @@
-import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
 import { Header, Footer } from "./components/index";
 import { Outlet } from "react-router-dom";
 
+// ✅ Toastify import
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -12,7 +13,15 @@ function App() {
         <main>
           <Outlet />
         </main>
-        <Footer/>
+        <Footer />
+
+        {/* ✅ Toast Container */}
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          pauseOnHover
+          theme="dark"
+        />
       </div>
     </div>
   );

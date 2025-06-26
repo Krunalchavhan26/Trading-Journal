@@ -5,6 +5,7 @@ import { setUser } from "../store/slices/userSlice";
 import axios from "axios";
 import conf from "../conf/conf";
 import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const {
@@ -26,11 +27,12 @@ const Login = () => {
 
       if (response?.data?.success) {
         dispatch(setUser(response.data.user));
+        toast.success(response.data.message)
         navigate("/");
       }
     } catch (error) {
-      console.error("Login failed:", error);
-      alert("Invalid credentials or server error");
+      const errorMessage = error?.response?.data?.message || error.message || "Something went wrong";
+            toast.error(errorMessage)
     }
   };
 
