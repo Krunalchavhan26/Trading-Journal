@@ -6,4 +6,5 @@ import Signup from "./Signup";
 import AuthLayout from "./authentication/AuthLayout";
 import Login from "./Login"
 import AddAccountForm from "./Admin/AddAccountForm";
-export { Container, Header, LogoutBtn, Footer, Signup, AuthLayout, Login, AddAccountForm };
+import Dashboard from "./Admin/Dashboard";
+export { Container, Header, LogoutBtn, Footer, Signup, AuthLayout, Login, AddAccountForm, Dashboard };

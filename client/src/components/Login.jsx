@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { setUser } from "../store/slices/userSlice";
-import axios from "axios";
-import conf from "../conf/conf";
+import axiosInstance from "../utils/axiosInstance";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -17,22 +16,39 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      try {
+        const response = await axiosInstance.get("/api/v1/users/current-user");
+
+        if (response?.data?.success) {
+          dispatch(setUser(response.data.user));
+          toast.success(response.data.message);
+          navigate("/dashboard");
+        }
+      } catch (error) {
+        console.log("User not logged in yet.");
+      }
+    };
+
+    checkLoggedIn();
+  }, [navigate]);
+
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(
-        `${conf.VITE_BACKEND_URL}/api/v1/users/login`,
-        data,
-        { withCredentials: true }
-      );
+      const response = await axiosInstance.post("/api/v1/users/login", data);
 
       if (response?.data?.success) {
         dispatch(setUser(response.data.user));
-        toast.success(response.data.message)
-        navigate("/");
+        toast.success(response.data.message);
+        navigate("/dashboard");
       }
     } catch (error) {
-      const errorMessage = error?.response?.data?.message || error.message || "Something went wrong";
-            toast.error(errorMessage)
+      const errorMessage =
+        error?.response?.data?.message ||
+        error.message ||
+        "Something went wrong";
+      toast.error(errorMessage);
     }
   };
 
@@ -95,7 +111,9 @@ const Login = () => {
           {/* Divider */}
           <div className="mt-8 flex items-center">
             <div className="flex-1 border-t border-slate-600"></div>
-            <span className="px-4 text-sm text-slate-400">Don't have an account?</span>
+            <span className="px-4 text-sm text-slate-400">
+              Don't have an account?
+            </span>
             <div className="flex-1 border-t border-slate-600"></div>
           </div>
 

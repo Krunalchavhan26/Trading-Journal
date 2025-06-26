@@ -10,7 +10,12 @@ const Header = () => {
     {
       name: "Home",
       slug: "/",
-      active: true,
+      active: !user,
+    },
+    {
+      name: "Dashboard",
+      slug: "/dashboard",
+      active: !!user
     },
     {
       name: "All Accounts",
