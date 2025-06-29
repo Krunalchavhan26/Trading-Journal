@@ -11,6 +11,7 @@ import Login from "./pages/Login.jsx";
 import { AuthLayout } from "./components/index.js";
 import AddAccount from "./pages/Admin/AddAccount.jsx";
 import Dashboard from "./pages/Admin/Dashboard.jsx";
+import AllAccounts from "./pages/Admin/AllAccounts.jsx";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,14 @@ const router = createBrowserRouter([
         element: (
           <AuthLayout authentication>
             <Dashboard/>
+          </AuthLayout>
+        )
+      },
+      {
+        path: "/all-accounts",
+        element: (
+          <AuthLayout authentication>
+            <AllAccounts/>
           </AuthLayout>
         )
       }

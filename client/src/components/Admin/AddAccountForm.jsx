@@ -13,7 +13,6 @@ const AddAccountForm = () => {
     reset,
   } = useForm();
   const dispatch = useDispatch();
-
   const onSubmit = async (data) => {
     try {
       const response = await axiosInstance.post(
@@ -22,7 +21,7 @@ const AddAccountForm = () => {
       );
 
       if (response?.data?.success) {
-        dispatch(addAccount(response.data.account));
+        dispatch(addAccount(response.data.data));
         toast.success(response.data.message);
         reset();
       }
@@ -35,7 +34,6 @@ const AddAccountForm = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-6">
       <div className="w-full max-w-lg bg-slate-800/50 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-700/50 p-8 hover:shadow-emerald-500/10 hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-300 ease-in-out">
-        
         {/* Header */}
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold bg-gradient-to-r from-emerald-400 to-emerald-600 bg-clip-text text-transparent mb-2">
@@ -46,7 +44,6 @@ const AddAccountForm = () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          
           {/* Account Name */}
           <div>
             <label className="block text-slate-300 text-sm font-medium mb-2">
@@ -71,10 +68,18 @@ const AddAccountForm = () => {
               {...register("type", { required: "Account type is required" })}
               className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200"
             >
-              <option value="" className="bg-slate-700">Select type</option>
-              <option value="Evaluation" className="bg-slate-700">Evaluation</option>
-              <option value="Funded" className="bg-slate-700">Funded</option>
-              <option value="Personal" className="bg-slate-700">Personal</option>
+              <option value="" className="bg-slate-700">
+                Select type
+              </option>
+              <option value="Evaluation" className="bg-slate-700">
+                Evaluation
+              </option>
+              <option value="Funded" className="bg-slate-700">
+                Funded
+              </option>
+              <option value="Personal" className="bg-slate-700">
+                Personal
+              </option>
             </select>
             {errors.type && (
               <p className="text-red-400 text-sm mt-2">{errors.type.message}</p>
@@ -96,7 +101,9 @@ const AddAccountForm = () => {
               placeholder="0.00"
             />
             {errors.startingBalance && (
-              <p className="text-red-400 text-sm mt-2">{errors.startingBalance.message}</p>
+              <p className="text-red-400 text-sm mt-2">
+                {errors.startingBalance.message}
+              </p>
             )}
           </div>
 
@@ -110,7 +117,7 @@ const AddAccountForm = () => {
               step="0.01"
               {...register("goal", {
                 required: "Goal is required",
-                min: { value: 100, message: "Goal should be at least 100"},
+                min: { value: 100, message: "Goal should be at least 100" },
               })}
               className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200"
               placeholder="100.00"
@@ -128,12 +135,16 @@ const AddAccountForm = () => {
             <input
               type="number"
               step="0.01"
-              {...register("commission", {required: "Commission is required"})}
+              {...register("commission", {
+                required: "Commission is required",
+              })}
               className="w-full px-4 py-3 bg-slate-700/50 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200"
               placeholder="0.00"
             />
             {errors.commission && (
-              <p className="text-red-400 text-sm mt-2">{errors.commission.message}</p>
+              <p className="text-red-400 text-sm mt-2">
+                {errors.commission.message}
+              </p>
             )}
           </div>
 
