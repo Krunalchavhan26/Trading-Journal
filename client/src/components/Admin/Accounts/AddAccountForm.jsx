@@ -1,9 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import axiosInstance from "../../utils/axiosInstance";
+import axiosInstance from "../../../utils/axiosInstance";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { addAccount } from "../../store/slices/accountSlice";
+import { addAccount } from "../../../store/slices/accountSlice";
 
 const AddAccountForm = () => {
   const {

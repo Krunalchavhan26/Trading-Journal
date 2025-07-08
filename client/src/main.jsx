@@ -12,6 +12,9 @@ import { AuthLayout } from "./components/index.js";
 import AddAccount from "./pages/Admin/AddAccount.jsx";
 import Dashboard from "./pages/Admin/Dashboard.jsx";
 import AllAccounts from "./pages/Admin/AllAccounts.jsx";
+import AddOrderbook from "./pages/Admin/AddOrderbook.jsx";
+import AllOrderbooks from "./pages/Admin/AllOrderbooks.jsx";
+import FullOrderbook from "./pages/Admin/FullOrderbook.jsx";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +62,30 @@ const router = createBrowserRouter([
         element: (
           <AuthLayout authentication>
             <AllAccounts/>
+          </AuthLayout>
+        )
+      }, 
+      {
+        path: "/accounts/:accountId/orderbooks",
+        element: (
+          <AuthLayout authentication>
+            <AllOrderbooks/>
+          </AuthLayout>
+        )
+      },
+      {
+        path:"/accounts/:accountId/add-orderbook",
+        element: (
+          <AuthLayout authentication>
+            <AddOrderbook/>
+          </AuthLayout>
+        )
+      },
+      {
+        path: "/accounts/:accountId/orderbook/:orderbookId",
+        element: (
+          <AuthLayout authentication>
+            <FullOrderbook/>
           </AuthLayout>
         )
       }

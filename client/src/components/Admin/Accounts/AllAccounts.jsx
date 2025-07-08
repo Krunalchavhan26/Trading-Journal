@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../../utils/axiosInstance";
+import axiosInstance from "../../../utils/axiosInstance";
 import { useSelector, useDispatch } from "react-redux";
-import { setAccounts } from "../../store/slices/accountSlice";
+import { setAccounts } from "../../../store/slices/accountSlice";
 import { useNavigate } from "react-router-dom";
 import {toast} from "react-toastify";
 
@@ -186,7 +186,7 @@ const AllAccounts = () => {
             {accounts.map((account) => (
               <div
                 key={account._id}
-                onClick={() => navigate(`accounts/${account._id}/orderbooks`)}
+                onClick={() => navigate(`/accounts/${account._id}/orderbooks`)}
                 className="group relative bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-6 border border-slate-700/50 hover:border-emerald-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-500/10 cursor-pointer"
               >
                 {/* Hover overlay */}
