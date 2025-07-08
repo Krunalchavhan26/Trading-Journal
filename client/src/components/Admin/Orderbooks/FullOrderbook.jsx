@@ -94,9 +94,9 @@ const FullOrderbook = () => {
 
     // Append all feilds from editedOrder
     for (const key in editedOrder) {
-      if (key === "tradeImage" && editedOrder[key] instanceof File) {
+      if (key === "tradeImageFile" && editedOrder[key] instanceof File) {
         formData.append("tradeImage", editedOrder[key]);
-      } else {
+      } else if (key !== "tradeImageFile") {
         formData.append(key, editedOrder[key]);
       }
     }
@@ -115,7 +115,15 @@ const FullOrderbook = () => {
         }
       );
       if (response?.data?.success) {
-        dispatch(updateOrderbook(response.data.data));
+        const updatedOrder = response.data.data;
+        if (updatedOrder.tradeImage) {
+          updatedOrder.tradeImage = `${
+            updatedOrder.tradeImage
+          }?t=${Date.now()}`;
+        }
+        dispatch(updateOrderbook(updatedOrder));
+        setEditedOrder(updatedOrder);
+        setOriginalOrder(updatedOrder);
         toast.success(response.data.message);
       }
     } catch (error) {
@@ -125,10 +133,18 @@ const FullOrderbook = () => {
   };
 
   const handleInputChange = (field, value) => {
-    setEditedOrder((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    if (field === "tradeImage" && value instanceof File) {
+      setEditedOrder((prev) => ({
+        ...prev,
+        tradeImage: URL.createObjectURL(value), // temp URL for preview
+        tradeImageFile: value, // File object for upload
+      }));
+    } else {
+      setEditedOrder((prev) => ({
+        ...prev,
+        [field]: value,
+      }));
+    }
   };
 
   const getSessionColor = (session) => {
@@ -299,7 +315,7 @@ const FullOrderbook = () => {
                     accept="image/*"
                     // value={editedOrder.tradeImage || ""}
                     onChange={(e) =>
-                      handleInputChange("tradeImage", e.target.files[0])
+                      handleInputChange("tradeImageFile", e.target.files[0])
                     }
                     className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-emerald-500"
                     placeholder="https://example.com/image.jpg"
@@ -631,21 +647,10 @@ const FullOrderbook = () => {
                   <label className="block text-sm font-medium text-slate-400 mb-2">
                     Commission
                   </label>
-                  {isEditing ? (
-                    <input
-                      type="number"
-                      step="0.01"
-                      value={editedOrder.commission || ""}
-                      onChange={(e) =>
-                        handleInputChange("commission", e.target.value)
-                      }
-                      className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-emerald-500"
-                    />
-                  ) : (
-                    <div className="px-3 py-2 bg-slate-700 rounded-lg text-white">
-                      {editedOrder.commission || "0"}
-                    </div>
-                  )}
+
+                  <div className="px-3 py-2 bg-slate-700 rounded-lg text-white">
+                    {(editedOrder.commission).toFixed(2) || "0"}
+                  </div>
                 </div>
               </div>
             </div>
