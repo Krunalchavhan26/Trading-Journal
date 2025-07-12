@@ -1,9 +1,13 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import {setAccounts} from "../../store/slices/accountSlice"
+import {setOrderbooks} from "../../store/slices/orderbookSlice"
+import axiosInstance from "../../utils/axiosInstance";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user.userData);
   const accounts = useSelector((state) => state.account.accounts || []);
@@ -15,6 +19,25 @@ const Dashboard = () => {
     (acc, ob) => acc + (ob.netPnL || 0),
     0
   );
+
+  // 👉 Fetch accounts & orderbooks on mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [accountsRes, orderbooksRes] = await Promise.all([
+          axiosInstance.get("/api/v1/accounts/getAllAccounts"),
+          axiosInstance.get("/api/v1/orderbooks/getAllAccounts")
+        ]);
+
+        dispatch(setAccounts(accountsRes.data.data)); // update this if your response structure is different
+        dispatch(setOrderbooks(orderbooksRes.data.data));
+      } catch (error) {
+        console.error("Error loading dashboard data", error);
+      }
+    };
+
+    fetchData();
+  }, [dispatch]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-6">
