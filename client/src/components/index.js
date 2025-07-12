@@ -12,6 +12,7 @@ import AddOrderbookForm from "./Admin/Orderbooks/AddOrderbookForm"
 import AddOrderbookBtn from "./Admin/Orderbooks/AddOrderbookBtn"
 import AllOrderbooks from "./Admin/Orderbooks/AllOrderbooks";
 import FullOrderbook from "./Admin/Orderbooks/FullOrderbook";
+import EditAccount from "./Admin/Accounts/EditAccount";
 
 export {
   Container,
@@ -27,5 +28,6 @@ export {
   AddOrderbookForm,
   AddOrderbookBtn,
   AllOrderbooks,
-  FullOrderbook
+  FullOrderbook,
+  EditAccount
 };

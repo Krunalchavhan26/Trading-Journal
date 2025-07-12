@@ -15,6 +15,7 @@ import AllAccounts from "./pages/Admin/AllAccounts.jsx";
 import AddOrderbook from "./pages/Admin/AddOrderbook.jsx";
 import AllOrderbooks from "./pages/Admin/AllOrderbooks.jsx";
 import FullOrderbook from "./pages/Admin/FullOrderbook.jsx";
+import EditAccount from "./pages/Admin/EditAccount.jsx";
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,14 @@ const router = createBrowserRouter([
           </AuthLayout>
         )
       }, 
+      {
+        path: "/edit-account/:accountId",
+        element: (
+          <AuthLayout authentication>
+            <EditAccount/>
+          </AuthLayout>
+        )
+      },
       {
         path: "/accounts/:accountId/orderbooks",
         element: (

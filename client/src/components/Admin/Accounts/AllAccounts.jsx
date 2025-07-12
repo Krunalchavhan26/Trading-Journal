@@ -34,6 +34,11 @@ const AllAccounts = () => {
     setShowDeleteDialog(true);
   };
 
+  const handleEditClick = (e, account) => {
+    e.stopPropagation(); // Prevent card click navigation
+    navigate(`/edit-account/${account._id}`);
+  };
+
   const handleConfirmDelete = () => {
     if (accountToDelete) {
       handleDelete(accountToDelete._id);
@@ -194,7 +199,7 @@ const AllAccounts = () => {
 
                 {/* Card content */}
                 <div className="relative z-10">
-                  {/* Header with icon, status, and DELETE BUTTON */}
+                  {/* Header with icon, status, and ACTION BUTTONS */}
                   <div className="flex items-start justify-between mb-6">
                     <div className="flex items-center gap-3">
                       <div className="p-3 bg-emerald-500/10 rounded-xl group-hover:bg-emerald-500/20 transition-colors duration-300 text-emerald-500">
@@ -209,26 +214,50 @@ const AllAccounts = () => {
                       </div>
                     </div>
                     
-                    {/* DELETE BUTTON - This was missing! */}
-                    <button
-                      onClick={(e) => handleDeleteClick(e, account)}
-                      className="p-2 bg-red-500/10 hover:bg-red-500/20 rounded-lg transition-all duration-300 border border-red-500/20 hover:border-red-500/40 opacity-0 group-hover:opacity-100 hover:scale-110"
-                      title="Delete Account"
-                    >
-                      <svg
-                        className="w-4 h-4 text-red-400 hover:text-red-300"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
+                    {/* ACTION BUTTONS */}
+                    <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      {/* EDIT BUTTON */}
+                      <button
+                        onClick={(e) => handleEditClick(e, account)}
+                        className="p-2 bg-blue-500/10 hover:bg-blue-500/20 rounded-lg transition-all duration-300 border border-blue-500/20 hover:border-blue-500/40 hover:scale-110"
+                        title="Edit Account"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                        />
-                      </svg>
-                    </button>
+                        <svg
+                          className="w-4 h-4 text-blue-400 hover:text-blue-300"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                          />
+                        </svg>
+                      </button>
+
+                      {/* DELETE BUTTON */}
+                      <button
+                        onClick={(e) => handleDeleteClick(e, account)}
+                        className="p-2 bg-red-500/10 hover:bg-red-500/20 rounded-lg transition-all duration-300 border border-red-500/20 hover:border-red-500/40 hover:scale-110"
+                        title="Delete Account"
+                      >
+                        <svg
+                          className="w-4 h-4 text-red-400 hover:text-red-300"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
 
                   {/* Account Type */}

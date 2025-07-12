@@ -7,17 +7,14 @@ const Dashboard = () => {
 
   const user = useSelector((state) => state.user.userData);
   const accounts = useSelector((state) => state.account.accounts || []);
-//   const orderbooks = useSelector((state) => state.orderbook.orderbooks || []);
+  const orderbooks = useSelector((state) => state.orderbook.orderbooks || []);
 
   const totalAccounts = accounts.length;
-//   const totalTrades = orderbooks.length;
-//   const totalNetProfit = orderbooks.reduce(
-//     (acc, ob) => acc + (ob.netPnL || 0),
-//     0
-//   );
-
-const totalTrades = 0;
-const totalNetProfit = 0;
+  const totalTrades = orderbooks.length;
+  const totalNetProfit = orderbooks.reduce(
+    (acc, ob) => acc + (ob.netPnL || 0),
+    0
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-6">
